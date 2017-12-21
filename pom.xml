@@ -1,36 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.jooby</groupId>
     <artifactId>jooby-project</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.3</version>
   </parent>
 
-  <artifactId>kotlin-starter</artifactId>
+  <artifactId>apitool-kotlin-starter</artifactId>
   <groupId>starter.kotlin</groupId>
 
   <properties>
-    <jooby.version>1.2.1</jooby.version>
+    <jooby.version>1.2.3</jooby.version>
     <spek.version>1.1.5</spek.version>
 
     <!-- Startup class -->
-    <application.class>starter.kotlin.AppKt</application.class>
+    <application.class>starter.apitool.AppKt</application.class>
   </properties>
 
   <dependencies>
+
+    <!-- Kotlin -->
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-lang-kotlin</artifactId>
+    </dependency>
+
+    <!-- Jackson -->
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-jackson</artifactId>
+    </dependency>
+
+    <!-- Jdbi -->
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-jdbi3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jdbi</groupId>
+      <artifactId>jdbi3-kotlin-sqlobject</artifactId>
+      <version>${jdbi3.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jdbi</groupId>
+      <artifactId>jdbi3-kotlin</artifactId>
+      <version>${jdbi3.version}</version>
+    </dependency>
+
+    <!-- Flyway -->
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-flyway</artifactId>
+    </dependency>
+
+    <!-- h2 driver -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
+
+    <!-- API Tool -->
+    <dependency>
+      <groupId>org.jooby</groupId>
+      <artifactId>jooby-apitool</artifactId>
+    </dependency>
 
     <!-- Server -->
     <dependency>
       <groupId>org.jooby</groupId>
       <artifactId>jooby-netty</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jooby</groupId>
-      <artifactId>jooby-lang-kotlin</artifactId>
     </dependency>
 
     <!-- Test -->
@@ -88,6 +133,19 @@
             <id>test-compile</id>
             <goals>
               <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Keep API at deploy time -->
+      <plugin>
+        <groupId>org.jooby</groupId>
+        <artifactId>jooby-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>apitool</goal>
             </goals>
           </execution>
         </executions>

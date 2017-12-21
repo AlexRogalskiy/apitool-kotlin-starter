@@ -1,24 +1,16 @@
-[![Build Status](https://travis-ci.org/jooby-project/apitool-kotlin-starter.svg?branch=master)](https://travis-ci.org/jooby-project/apitool-kotlin-starter)
-# apitool
+package starter.apitool
 
-Starter project for [apitool](http://jooby.org/doc/apitool/) module.
+import org.jdbi.v3.core.kotlin.KotlinPlugin
+import org.jdbi.v3.sqlobject.SqlObjectPlugin
+import org.jdbi.v3.sqlobject.kotlin.KotlinSqlObjectPlugin
+import org.jooby.*
+import org.jooby.apitool.ApiTool
+import org.jooby.flyway.Flywaydb
+import org.jooby.jdbc.Jdbc
+import org.jooby.jdbi.Jdbi3
+import org.jooby.jdbi.TransactionalRequest
+import org.jooby.json.Jackson
 
-## screenshots
-
-### swagger
-![Swagger Api Tool](http://jooby.org/resources/images/apitool-swagger.png)
-
-### raml
-![RAML Api Tool](http://jooby.org/resources/images/apitool-raml.png)
-
-## quick preview
-
-This project contains a simple application that:
-
-- Defines a Pet API using script routes
-- Export API to [Swagger](https://swagger.io) and [RAML](https://raml.org)
-
-```kotlin
 /**
  * Kotlin ApiTool.
  */
@@ -138,30 +130,10 @@ class App : Kooby({
     }
 })
 
-```
 
-## run
-
-    mvn jooby:run
-
-Try:
-
-- http://localhost:8080/swagger
-- http://localhost:8080/raml
-
-## build
-
-    mvn clean package
-
-The `apitool` plugin generates an `App.json` file to keep documentation available at deploy time.
-
-```
-[INFO] --- jooby-maven-plugin:apitool (default) @ apitool-starter ---
-[INFO] API file: apitool-starter/target/classes/starter/apitool/App.json
-``` 
-
-## help
-
-* Read the [module documentation](http://jooby.org/doc/apitool)
-* Join the [channel](https://gitter.im/jooby-project/jooby)
-* Join the [group](https://groups.google.com/forum/#!forum/jooby-project)
+/**
+ * Run application:
+ */
+fun main(args: Array<String>) {
+    run(::App, *args)
+}
