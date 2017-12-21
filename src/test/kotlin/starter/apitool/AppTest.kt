@@ -13,9 +13,10 @@ import org.junit.runner.RunWith
 @RunWith(JUnitPlatform::class)
 object AppTest : Spek({
     jooby(App()) {
-        describe("swagger.json") {
+        describe("swagger") {
             given("Pets API") {
                 it("should get a swagger representation") {
+                    //${'$'}ref
                     given()
                             .`when`()
                             .get("/swagger/swagger.json")
@@ -25,13 +26,13 @@ object AppTest : Spek({
                             .extract()
                             .asString()
                             .let {
-                                assertEquals(it, """{"swagger":"2.0","info":{"version":"v1","title":"Pets Kotlin API"},"basePath":"/","tags":[{"name":"Pets","description":"Everything about your Pets."}],"schemes":["http"],"consumes":["application/json"],"produces":["application/json"],"paths":{"/api/pets":{"get":{"tags":["Pets"],"summary":"List pets ordered by id","description":"","operationId":"getPets","parameters":[{"name":"start","in":"query","description":"Start offset, useful for paging. Default is `0`.","required":false,"type":"integer","default":0,"format":"int32"},{"name":"max","in":"query","description":"Max page size, useful for paging. Default is `50`.","required":false,"type":"integer","default":20,"format":"int32"}],"responses":{"200":{"description":"Pets ordered by name.","schema":{"type":"array","items":{"${'$'}ref":"#/definitions/Pet"}}}}},"post":{"tags":["Pets"],"summary":"Add a new pet to the store","description":"","operationId":"postPets","parameters":[{"in":"body","name":"body","description":"Pet object that needs to be added to the store.","required":true,"schema":{"${'$'}ref":"#/definitions/Pet"}}],"responses":{"200":{"description":"Returns a saved pet.","schema":{"${'$'}ref":"#/definitions/Pet"}}}},"put":{"tags":["Pets"],"summary":"Update an existing pet","description":"","operationId":"putPets","parameters":[{"in":"body","name":"body","description":"Pet object that needs to be updated.","required":true,"schema":{"${'$'}ref":"#/definitions/Pet"}}],"responses":{"200":{"description":"Returns a saved pet.","schema":{"${'$'}ref":"#/definitions/Pet"}}}}},"/api/pets/{id}":{"get":{"tags":["Pets"],"description":"Find pet by ID","operationId":"getPetsById","parameters":[{"name":"id","in":"path","description":"Pet ID.","required":true,"type":"integer","format":"int64"}],"responses":{"200":{"description":"Returns `200` with a single pet or `404`","schema":{"${'$'}ref":"#/definitions/Pet"}},"404":{"description":"Not Found"}}},"delete":{"tags":["Pets"],"summary":"Deletes a pet by ID","description":"","operationId":"deletePets","parameters":[{"name":"id","in":"path","description":"Pet ID.","required":true,"type":"integer","format":"int64"}],"responses":{"204":{"description":"A `204`","schema":{"${'$'}ref":"#/definitions/Result"}}}}}},"definitions":{"Pet":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"}}},"Result":{"type":"object"}}}""")
+                                assertEquals("""{"swagger":"2.0","info":{"version":"v1","title":"Pets Kotlin API"},"basePath":"/","tags":[{"name":"Pet","description":"Everything about your Pets."}],"schemes":["http"],"consumes":["application/json"],"produces":["application/json"],"paths":{"/api/pet":{"get":{"tags":["Pet"],"summary":"List pets ordered by id","description":"","operationId":"getPet","parameters":[{"name":"start","in":"query","description":"Start offset, useful for paging. Default is `0`.","required":false,"type":"integer","default":0,"format":"int32"},{"name":"max","in":"query","description":"Max page size, useful for paging. Default is `20`.","required":false,"type":"integer","default":20,"format":"int32"}],"responses":{"200":{"description":"Pets ordered by name.","schema":{"type":"array","items":{"${'$'}ref":"#/definitions/Pet"}}}}},"post":{"tags":["Pet"],"summary":"Add a new pet to the store","description":"","operationId":"postPet","parameters":[{"in":"body","name":"body","description":"Pet object that needs to be added to the store.","required":true,"schema":{"${'$'}ref":"#/definitions/Pet"}}],"responses":{"200":{"description":"Returns a saved pet.","schema":{"${'$'}ref":"#/definitions/Pet"}}}},"put":{"tags":["Pet"],"summary":"Update an existing pet","description":"","operationId":"putPet","parameters":[{"in":"body","name":"body","description":"Pet object that needs to be updated.","required":true,"schema":{"${'$'}ref":"#/definitions/Pet"}}],"responses":{"200":{"description":"Returns a saved pet.","schema":{"${'$'}ref":"#/definitions/Pet"}}}}},"/api/pet/{id}":{"get":{"tags":["Pet"],"description":"Find pet by ID","operationId":"getPetById","parameters":[{"name":"id","in":"path","description":"Pet ID.","required":true,"type":"integer","format":"int64"}],"responses":{"200":{"description":"Returns `200` with a single pet or `404`","schema":{"${'$'}ref":"#/definitions/Pet"}},"404":{"description":"Not Found"}}},"delete":{"tags":["Pet"],"summary":"Deletes a pet by ID","description":"","operationId":"deletePet","parameters":[{"name":"id","in":"path","description":"Pet ID.","required":true,"type":"integer","format":"int64"}],"responses":{"204":{"description":"A `204`","schema":{"${'$'}ref":"#/definitions/Result"}}}}}},"definitions":{"Pet":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"}}},"Result":{"type":"object"}}}""", it)
                             }
                 }
             }
         }
 
-        describe("api.raml") {
+        describe("raml") {
             given("Pets API") {
                 it("should get a raml representation") {
                     given()
@@ -43,7 +44,7 @@ object AppTest : Spek({
                             .extract()
                             .asString()
                             .let {
-                                assertEquals(it, """#%RAML 1.0
+                                assertEquals("""#%RAML 1.0
 ---
 title: Pets Kotlin API
 version: 0.0.0
@@ -64,7 +65,7 @@ types:
   Result:
     type: object
 /api:
-  /pets:
+  /pet:
     description: Everything about your Pets.
     get:
       description: List pets ordered by id.
@@ -76,7 +77,7 @@ types:
           type: integer
         max:
           required: false
-          description: Max page size, useful for paging. Default is `50`.
+          description: Max page size, useful for paging. Default is `20`.
           default: 20
           type: integer
       responses:
@@ -125,7 +126,7 @@ types:
             description: A `204`
             body:
               type: Result
-""")
+""", it)
                             }
                 }
             }
