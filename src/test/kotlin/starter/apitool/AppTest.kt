@@ -26,7 +26,7 @@ object AppTest : Spek({
                             .extract()
                             .asString()
                             .let {
-                                assertEquals("""{"swagger":"2.0","info":{"version":"v1","title":"Pets Kotlin API"},"basePath":"/","tags":[{"name":"Pet","description":"Everything about your Pets."}],"schemes":["http"],"consumes":["application/json"],"produces":["application/json"],"paths":{"/api/pet":{"get":{"tags":["Pet"],"summary":"List pets ordered by id","description":"","operationId":"getPet","parameters":[{"name":"start","in":"query","description":"Start offset, useful for paging. Default is `0`.","required":false,"type":"integer","default":0,"format":"int32"},{"name":"max","in":"query","description":"Max page size, useful for paging. Default is `20`.","required":false,"type":"integer","default":20,"format":"int32"}],"responses":{"200":{"description":"Pets ordered by name.","schema":{"type":"array","items":{"${'$'}ref":"#/definitions/Pet"}}}}},"post":{"tags":["Pet"],"summary":"Add a new pet to the store","description":"","operationId":"postPet","parameters":[{"in":"body","name":"body","description":"Pet object that needs to be added to the store.","required":true,"schema":{"${'$'}ref":"#/definitions/Pet"}}],"responses":{"200":{"description":"Returns a saved pet.","schema":{"${'$'}ref":"#/definitions/Pet"}}}},"put":{"tags":["Pet"],"summary":"Update an existing pet","description":"","operationId":"putPet","parameters":[{"in":"body","name":"body","description":"Pet object that needs to be updated.","required":true,"schema":{"${'$'}ref":"#/definitions/Pet"}}],"responses":{"200":{"description":"Returns a saved pet.","schema":{"${'$'}ref":"#/definitions/Pet"}}}}},"/api/pet/{id}":{"get":{"tags":["Pet"],"description":"Find pet by ID","operationId":"getPetById","parameters":[{"name":"id","in":"path","description":"Pet ID.","required":true,"type":"integer","format":"int64"}],"responses":{"200":{"description":"Returns `200` with a single pet or `404`","schema":{"${'$'}ref":"#/definitions/Pet"}},"404":{"description":"Not Found"}}},"delete":{"tags":["Pet"],"summary":"Deletes a pet by ID","description":"","operationId":"deletePet","parameters":[{"name":"id","in":"path","description":"Pet ID.","required":true,"type":"integer","format":"int64"}],"responses":{"204":{"description":"A `204`","schema":{"${'$'}ref":"#/definitions/Result"}}}}}},"definitions":{"Pet":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"}}},"Result":{"type":"object"}}}""", it)
+                                assertEquals("""{"swagger":"2.0","info":{"version":"v1","title":"Pets Kotlin API"},"basePath":"/","tags":[{"name":"ApiPet","description":"Everything about your Pets."}],"schemes":["http"],"consumes":["application/json"],"produces":["application/json"],"paths":{"/api/pet":{"get":{"tags":["ApiPet"],"summary":"List pets ordered by id","description":"","operationId":"getApiPetByStartMax","parameters":[{"name":"start","in":"query","description":"Start offset, useful for paging. Default is `0`.","required":false,"type":"integer","default":0,"format":"int32"},{"name":"max","in":"query","description":"Max page size, useful for paging. Default is `20`.","required":false,"type":"integer","default":20,"format":"int32"}],"responses":{"200":{"description":"Pets ordered by name.","schema":{"type":"array","items":{"${'$'}ref":"#/definitions/Pet"}}}}},"post":{"tags":["ApiPet"],"summary":"Add a new pet to the store","description":"","operationId":"postApiPet","parameters":[{"in":"body","name":"body","description":"Pet object that needs to be added to the store.","required":true,"schema":{"${'$'}ref":"#/definitions/Pet"}}],"responses":{"200":{"description":"Returns a saved pet.","schema":{"${'$'}ref":"#/definitions/Pet"}}}},"put":{"tags":["ApiPet"],"summary":"Update an existing pet","description":"","operationId":"putApiPet","parameters":[{"in":"body","name":"body","description":"Pet object that needs to be updated.","required":true,"schema":{"${'$'}ref":"#/definitions/Pet"}}],"responses":{"200":{"description":"Returns a saved pet.","schema":{"${'$'}ref":"#/definitions/Pet"}}}}},"/api/pet/{id}":{"get":{"tags":["ApiPet"],"description":"Find pet by ID","operationId":"getApiPetById","parameters":[{"name":"id","in":"path","description":"Pet ID.","required":true,"type":"integer","format":"int64"}],"responses":{"200":{"description":"Returns `200` with a single pet or `404`","schema":{"${'$'}ref":"#/definitions/Pet"}},"404":{"description":"Not Found"}}},"delete":{"tags":["ApiPet"],"summary":"Deletes a pet by ID","description":"","operationId":"deleteApiPet","parameters":[{"name":"id","in":"path","description":"Pet ID.","required":true,"type":"integer","format":"int64"}],"responses":{"204":{"description":"A `204`","schema":{"${'$'}ref":"#/definitions/Result"}}}}}},"definitions":{"Pet":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"}}},"Result":{"type":"object"}}}""", it)
                             }
                 }
             }
@@ -84,14 +84,16 @@ types:
         200:
           description: Pets ordered by name.
           body:
-            type: Pet[]
+            application/json:
+              type: Pet[]
     post:
       description: Add a new pet to the store.
       responses:
         200:
           description: Returns a saved pet.
           body:
-            type: Pet
+            application/json:
+              type: Pet
       body:
         type: Pet
     put:
@@ -100,7 +102,8 @@ types:
         200:
           description: Returns a saved pet.
           body:
-            type: Pet
+            application/json:
+              type: Pet
       body:
         type: Pet
     /{id}:
@@ -116,7 +119,8 @@ types:
           200:
             description: Returns `200` with a single pet or `404`
             body:
-              type: Pet
+              application/json:
+                type: Pet
           404:
             description: Not Found
       delete:
@@ -125,7 +129,8 @@ types:
           204:
             description: A `204`
             body:
-              type: Result
+              application/json:
+                type: Result
 """, it)
                             }
                 }
